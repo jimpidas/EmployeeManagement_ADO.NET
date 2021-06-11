@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EmployeeManagement_day27.Model.SalaryModel
 {
-    class SalaryDetailModel
+    public class SalaryDetailModel
     {
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
@@ -13,7 +13,5 @@ namespace EmployeeManagement_day27.Model.SalaryModel
         public int EmployeeSalary { get; set; }
         public int SalaryId { get; set; }
 
-
     }
-
 }

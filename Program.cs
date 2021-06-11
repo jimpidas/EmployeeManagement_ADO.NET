@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeManagement_day27.Model.SalaryModel;
+using System;
 
 namespace EmployeeManagement_day27
 {
@@ -6,7 +7,9 @@ namespace EmployeeManagement_day27
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Salary salary = new Salary();
+            SalaryUpdateModel updateModel = new SalaryUpdateModel();
+            salary.RetrieveEmployee_BetweenParticularDate();
         }
     }
 }

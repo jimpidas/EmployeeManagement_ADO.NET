@@ -1,6 +1,7 @@
 ﻿using EmployeeManagement_day27.Model.SalaryModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -13,47 +14,35 @@ namespace EmployeeManagement_day27
         {
             return new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=payroll_service;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
-
-        public int UpdateEmployeeSalary(SalaryUpdateModel salaryUpdateModel)
+        SqlConnection SalaryConnection = ConnectionSetup();
+        public bool RetrieveEmployee_BetweenParticularDate()
         {
-            SqlConnection SalaryConnection = ConnectionSetup();
-            int salary = 0;
             try
             {
+                SalaryDetailModel displayModel = new SalaryDetailModel();
+                
+            
                 using (SalaryConnection)
                 {
-                    string id = "2";
-                    //string id=Console.ReadLine();
-                    string query = @"select * from Employee1 where empid=" + Convert.ToInt32(id);
-                    SalaryDetailModel displayModel = new SalaryDetailModel();
-                    SqlCommand command = new SqlCommand("spUpdateEmployeeSalary", SalaryConnection);
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@id", salaryUpdateModel.SalaryId);
-                    command.Parameters.AddWithValue("@month", salaryUpdateModel.Month);
-                    command.Parameters.AddWithValue("@salary", salaryUpdateModel.EmployeeSalary);
-                    command.Parameters.AddWithValue("@EmpId", salaryUpdateModel.EmployeeId);
+                    SqlCommand command = new SqlCommand("select ename from Employee1 where HireDay between '2017-03-03' and getdate();", SalaryConnection);
+                    
+                    
                     SalaryConnection.Open();
                     SqlDataReader dr = command.ExecuteReader();
                     if (dr.HasRows)
                     {
                         while (dr.Read())
                         {
-                            displayModel.EmployeeId = Convert.ToInt32(dr["EmpId"]);
-                            displayModel.EmployeeName = dr["ENAME"].ToString();
-                           // displayModel.JobDescription = dr["JobDiscription"].ToString();
-                            displayModel.EmployeeSalary = Convert.ToInt32(dr["EMPSAL"]);
-                            displayModel.Month = dr["SalaryMONTH"].ToString();
-                            displayModel.SalaryId = Convert.ToInt32(dr["SALARYId"]);
-                            Console.WriteLine(displayModel.EmployeeName + " " + displayModel.EmployeeSalary + " " + displayModel.Month);
-                            Console.WriteLine("\n");
-                            salary = displayModel.EmployeeSalary;
+                            displayModel.EmployeeName = dr.GetString(0);
+                            Console.WriteLine(displayModel.EmployeeName);
+                            
                         }
+                        return true;
                     }
                     else
                     {
                         Console.WriteLine("No data found.");
                     }
-
                 }
             }
             catch (Exception e)
@@ -64,10 +53,8 @@ namespace EmployeeManagement_day27
             {
                 SalaryConnection.Close();
             }
-            return salary;
+            return false;
         }
+        
     }
-
-
-
 }

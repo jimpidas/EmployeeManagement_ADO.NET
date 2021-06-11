@@ -7,22 +7,13 @@ namespace EmployeeManagementTest
     [TestClass]
     public class UnitTest1
     {
+        //UC5
         [TestMethod]
-        public void GivenSalaryDataAbleToUpdateSalaryDetails()
+        public void GivenDateRange_ShouldReturnEmployeeName()
         {
             Salary salary = new Salary();
-            SalaryUpdateModel updateModel = new SalaryUpdateModel()
-            {
-                SalaryId = 1,
-                Month = "Jan",
-                EmployeeSalary = 1400,
-                EmployeeId = 2
-            };
-
-            int EmpSalary = salary.UpdateEmployeeSalary(updateModel);
-
-            Assert.AreEqual(updateModel.EmployeeSalary, EmpSalary);
-        }
+            var Employeename = salary.RetrieveEmployee_BetweenParticularDate();
+            Assert.IsTrue(Employeename);
+        }  
     }
-
 }
