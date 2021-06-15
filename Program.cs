@@ -9,7 +9,7 @@ namespace EmployeeManagement_day27
         {
             Salary salary = new Salary();
             SalaryUpdateModel updateModel = new SalaryUpdateModel();
-            salary.RetrieveEmployee_BetweenParticularDate();
+            salary.FindSum();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace EmployeeManagement_day27.Model.SalaryModel
         public string Month { get; set; }
         public int EmployeeSalary { get; set; }
         public int SalaryId { get; set; }
+        public string Gender { get; set; }
 
     }
 }
