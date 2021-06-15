@@ -1,6 +1,7 @@
 using EmployeeManagement_day27;
 using EmployeeManagement_day27.Model.SalaryModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace EmployeeManagementTest
 {
@@ -24,7 +25,6 @@ namespace EmployeeManagementTest
             Assert.AreEqual(updateModel.EmployeeSalary, EmpSalary);
         }
 
-
         //UC5
         [TestMethod]
         public void GivenDateRange_ShouldReturnEmployeeName()
@@ -39,6 +39,25 @@ namespace EmployeeManagementTest
         {
             Salary salary = new Salary();
             var Employeename = salary.FindSum();
+            Assert.IsTrue(Employeename);
+        }
+        [TestMethod]
+        public void AddNewRecord()
+        {
+            Salary salary = new Salary();
+            SalaryDetailModel detailModel = new SalaryDetailModel()
+            {
+
+                EmployeeName = "Rusi",
+                Gender="F",
+                Hire_date=new DateTime(2018,04,09),
+                dept_no=3,
+                email="rusi@gmail.com",
+                birthday=new DateTime(1995,01,29),
+                JobDescription="Developer",
+                
+            };
+            var Employeename= salary.AddNewRecord(detailModel);
             Assert.IsTrue(Employeename);
         }
     }

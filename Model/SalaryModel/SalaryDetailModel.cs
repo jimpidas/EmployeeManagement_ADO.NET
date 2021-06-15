@@ -13,6 +13,10 @@ namespace EmployeeManagement_day27.Model.SalaryModel
         public int EmployeeSalary { get; set; }
         public int SalaryId { get; set; }
         public string Gender { get; set; }
+       public DateTime Hire_date { get; set; }
+        public string email { get; set; }
+        public int dept_no { get; set; }
+        public DateTime birthday { get; set; }
 
     }
 }

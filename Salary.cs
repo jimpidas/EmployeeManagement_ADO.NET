@@ -146,6 +146,47 @@ namespace EmployeeManagement_day27
             }
             return salary;
         }
+
+         public bool  AddNewRecord(SalaryDetailModel displayModel)
+         {
+            SqlConnection SalaryConnection = ConnectionSetup();
+            
+            try
+            {
+                using (SalaryConnection)
+                {
+                    SqlCommand command = new SqlCommand("spAddingRecord", SalaryConnection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@EmpName",displayModel.EmployeeName);
+                    command.Parameters.AddWithValue("@gender", displayModel.Gender);
+                    command.Parameters.AddWithValue("@hireday", displayModel.Hire_date);
+                    command.Parameters.AddWithValue("@deptNo", displayModel.dept_no);
+                    command.Parameters.AddWithValue("@email", displayModel.email);
+                    command.Parameters.AddWithValue("@birthdate", displayModel.birthday);
+                    command.Parameters.AddWithValue("@job", displayModel.JobDescription);
+                    SalaryConnection.Open();
+                    
+                    var result = command.ExecuteNonQuery();
+                    SalaryConnection.Close();
+                    if (result != 0)
+                    {
+
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                SalaryConnection.Close();
+            }
+            return false;
+         }
     }
+    
 }
 
