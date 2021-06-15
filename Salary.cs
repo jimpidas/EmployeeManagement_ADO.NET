@@ -96,8 +96,6 @@ namespace EmployeeManagement_day27
             }
             return false;
         }
-
-
         public int UpdateEmployeeSalary(SalaryUpdateModel salaryUpdateModel)
         {
             SqlConnection SalaryConnection = ConnectionSetup();
@@ -136,7 +134,6 @@ namespace EmployeeManagement_day27
                     {
                         Console.WriteLine("No data found.");
                     }
-
                 }
             }
             catch (Exception e)
@@ -149,7 +146,6 @@ namespace EmployeeManagement_day27
             }
             return salary;
         }
-
     }
 }
 
