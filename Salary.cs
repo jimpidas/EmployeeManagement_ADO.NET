@@ -186,7 +186,81 @@ namespace EmployeeManagement_day27
             }
             return false;
          }
+
+        public bool InsertEmployeeRecordToBothTables(SalaryDetailModel employee)
+        {
+            employee.EmployeeSalary = 450000;
+            employee.deduction = 0.2 * employee.EmployeeSalary;
+            employee.taxablePay = employee.EmployeeSalary - employee.deduction;
+            employee.incomeTax = 0.1 * employee.taxablePay;
+            employee.netPay = employee.EmployeeSalary - employee.incomeTax;
+            employee.Month = "Feb";
+            
+
+            string storedProcedure = "sp_InsertEmployee1Details";
+            string storedProcedurePayroll = "sp_InsertSalaryDetails";
+            using (SalaryConnection)
+            {
+                SalaryConnection.Open();
+                SqlTransaction transaction;
+                transaction = SalaryConnection.BeginTransaction("Insert Employee Transaction");
+                try
+                {
+                    SqlCommand sqlCommand = new SqlCommand(storedProcedure, SalaryConnection, transaction);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@EmpName", employee.EmployeeName);
+                    sqlCommand.Parameters.AddWithValue("@gender", employee.Gender);
+                    sqlCommand.Parameters.AddWithValue("@hireday", employee.Hire_date);
+                    sqlCommand.Parameters.AddWithValue("@deptNo", employee.dept_no);
+                    sqlCommand.Parameters.AddWithValue("@email", employee.email);
+                    sqlCommand.Parameters.AddWithValue("@birthdate", employee.birthday);
+                    sqlCommand.Parameters.AddWithValue("@job", employee.JobDescription);
+                    SqlParameter outPutVal = new SqlParameter("@scopeIdentifier", SqlDbType.Int);
+                    outPutVal.Direction = ParameterDirection.Output;
+                    sqlCommand.Parameters.Add(outPutVal);
+
+                    sqlCommand.ExecuteNonQuery();
+                    SqlCommand sqlCommand1 = new SqlCommand(storedProcedurePayroll, SalaryConnection, transaction);
+                    sqlCommand1.CommandType = CommandType.StoredProcedure;
+                    sqlCommand1.Parameters.AddWithValue("@ID", outPutVal.Value);
+                    sqlCommand1.Parameters.AddWithValue("@SalaryMonth", employee.Month);
+                    sqlCommand1.Parameters.AddWithValue("@BasicPay", employee.EmployeeSalary);
+                    sqlCommand1.Parameters.AddWithValue("@Deduction", employee.deduction);
+                    sqlCommand1.Parameters.AddWithValue("@TaxablePay", employee.taxablePay);
+                    sqlCommand1.Parameters.AddWithValue("@IncomeTax", employee.incomeTax);
+                    sqlCommand1.Parameters.AddWithValue("@NetPay", employee.netPay);
+                    var result= sqlCommand1.ExecuteNonQuery();
+                    transaction.Commit();
+                    
+                    SalaryConnection.Close();
+                    if (result != 0)
+                    {
+
+                        return true;
+                    }
+                    return false;
+                
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        Console.WriteLine(ex2.Message);
+                    }
+                }
+            }
+            return false;
+        }
+
     }
-    
+
 }
 

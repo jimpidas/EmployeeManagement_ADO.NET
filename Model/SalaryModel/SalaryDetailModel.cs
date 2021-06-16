@@ -17,6 +17,13 @@ namespace EmployeeManagement_day27.Model.SalaryModel
         public string email { get; set; }
         public int dept_no { get; set; }
         public DateTime birthday { get; set; }
+        public double deduction { get; set; }
+        public double incomeTax { get; set; }
+        public double netPay { get; set; }
+        public double taxablePay { get; set; }
+       public string scopeIdentifier { get; set; }
+
+
 
     }
 }

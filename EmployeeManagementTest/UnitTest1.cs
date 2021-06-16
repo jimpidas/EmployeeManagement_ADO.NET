@@ -41,8 +41,10 @@ namespace EmployeeManagementTest
             var Employeename = salary.FindSum();
             Assert.IsTrue(Employeename);
         }
-        [TestMethod]
-        public void AddNewRecord()
+
+        //UC7
+       // [TestMethod]
+       /* public void AddNewRecord()
         {
             Salary salary = new Salary();
             SalaryDetailModel detailModel = new SalaryDetailModel()
@@ -60,5 +62,27 @@ namespace EmployeeManagementTest
             var Employeename= salary.AddNewRecord(detailModel);
             Assert.IsTrue(Employeename);
         }
+       */
+        //UC8
+        [TestMethod]
+        public void AddNewRecordToBothTables()
+        {
+            Salary salary = new Salary();
+            SalaryDetailModel detailModel = new SalaryDetailModel()
+            {
+
+                EmployeeName = "Nitya",
+                Gender = "F",
+                Hire_date = new DateTime(2019, 06, 09),
+                dept_no = 4,
+                email = "Nitya@gmail.com",
+                birthday = new DateTime(1994, 01, 29),
+                JobDescription = "Fullstack Developer",
+
+            };
+            var Employeename = salary.InsertEmployeeRecordToBothTables(detailModel);
+            Assert.IsTrue(Employeename);
+        }
     }
+    
 }
